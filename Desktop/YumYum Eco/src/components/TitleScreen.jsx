@@ -6,7 +6,7 @@ function TitleScreen({ onStart }) {
     <div className="title-screen">
 
       <img 
-        src="/TITLE.jpg" 
+        src={`${import.meta.env.BASE_URL}TITLE.jpg`}
         alt="냠냠 생태계 타이틀" 
         className="title-bg"
       />
