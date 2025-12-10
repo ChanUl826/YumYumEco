@@ -1,12 +1,13 @@
 import React from 'react'
 import '../style.css'
+import { BASE_URL } from '../config'
 
 function TitleScreen({ onStart }) {
   return (
     <div className="title-screen">
 
       <img 
-        src={`${import.meta.env.BASE_URL}TITLE.jpg`}
+        src={`${BASE_URL}TITLE.jpg`}
         alt="냠냠 생태계 타이틀" 
         className="title-bg"
       />

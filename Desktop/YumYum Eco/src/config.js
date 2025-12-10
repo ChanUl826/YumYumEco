@@ -1,4 +1,7 @@
 
+// GitHub Pages base URL
+export const BASE_URL = import.meta.env.BASE_URL || '/YumYumEco/'
+
 export const CONFIG = {
 
   TYPES: {
