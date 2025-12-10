@@ -165,20 +165,69 @@ export const updateMovement = (entity, canvasSize, timeScale, animationState, sp
   const minY = updatedEntity.size / 2
   const maxY = canvasSize.height - updatedEntity.size / 2
 
+  let hitWall = false
+  let wallHitX = false
+  let wallHitY = false
+
   if (updatedEntity.x < minX) {
     updatedEntity.vx *= -1
     updatedEntity.x = minX
+    hitWall = true
+    wallHitX = true
   } else if (updatedEntity.x > maxX) {
     updatedEntity.vx *= -1
     updatedEntity.x = maxX
+    hitWall = true
+    wallHitX = true
   }
 
   if (updatedEntity.y < minY) {
     updatedEntity.vy *= -1
     updatedEntity.y = minY
+    hitWall = true
+    wallHitY = true
   } else if (updatedEntity.y > maxY) {
     updatedEntity.vy *= -1
     updatedEntity.y = maxY
+    hitWall = true
+    wallHitY = true
+  }
+
+  // 벽구석에서 멈추지 않도록 처리
+  if (wallHitX && wallHitY) {
+    // 구석에 닿았을 때 랜덤한 방향으로 튕기기
+    const angle = Math.random() * Math.PI * 2
+    const speed = Math.sqrt(updatedEntity.vx * updatedEntity.vx + updatedEntity.vy * updatedEntity.vy)
+    updatedEntity.vx = Math.cos(angle) * speed
+    updatedEntity.vy = Math.sin(angle) * speed
+    // 타겟 초기화하여 새로운 타겟을 찾도록 함
+    updatedEntity.target = null
+  } else if (hitWall) {
+    // 벽에 닿았을 때 타겟이 벽 방향이면 타겟 초기화
+    if (updatedEntity.target) {
+      const target = updatedEntity.target
+      const dx = target.x - updatedEntity.x
+      const dy = target.y - updatedEntity.y
+      
+      // 타겟이 벽 너머에 있으면 타겟 초기화
+      if ((wallHitX && Math.abs(dx) < Math.abs(dy)) || (wallHitY && Math.abs(dy) < Math.abs(dx))) {
+        // 타겟이 벽 방향이지만, 벽에 가로막혀 있으면 초기화
+        const distToWallX = wallHitX ? (updatedEntity.x < canvasSize.width / 2 ? updatedEntity.x - minX : maxX - updatedEntity.x) : Infinity
+        const distToWallY = wallHitY ? (updatedEntity.y < canvasSize.height / 2 ? updatedEntity.y - minY : maxY - updatedEntity.y) : Infinity
+        
+        if (distToWallX < 50 || distToWallY < 50) {
+          updatedEntity.target = null
+        }
+      }
+    }
+    
+    // 벽에 닿았을 때 약간의 랜덤 방향 추가하여 멈추지 않도록 함
+    const randomAngle = (Math.random() - 0.5) * 0.3
+    const currentAngle = Math.atan2(updatedEntity.vy, updatedEntity.vx)
+    const newAngle = currentAngle + randomAngle
+    const speed = Math.sqrt(updatedEntity.vx * updatedEntity.vx + updatedEntity.vy * updatedEntity.vy)
+    updatedEntity.vx = Math.cos(newAngle) * speed
+    updatedEntity.vy = Math.sin(newAngle) * speed
   }
 
   updatedEntity.x = Math.max(minX, Math.min(maxX, updatedEntity.x))
