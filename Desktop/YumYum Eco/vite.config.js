@@ -8,5 +8,5 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.GITHUB_REPOSITORY 
     ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
-    : '/yumyum-eco/', // 기본값: 리포지토리 이름에 맞게 수정하세요
+    : '/YumYumEco/', // 리포지토리 이름: YumYumEco
 })
