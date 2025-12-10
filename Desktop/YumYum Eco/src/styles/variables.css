@@ -1,0 +1,88 @@
+/**
+ * CSS 변수 및 테마 정의
+ * - 색상, 간격, 효과 등을 중앙 관리
+ */
+
+:root {
+  /* 색상 팔레트 */
+  --color-primary: #4CAF50;
+  --color-primary-light: #66BB6A;
+  --color-primary-dark: #388E3C;
+  
+  --color-secondary: #2196F3;
+  --color-secondary-light: #42A5F5;
+  --color-secondary-dark: #1976D2;
+  
+  --color-warning: #FFC107;
+  --color-warning-light: #FFD54F;
+  --color-danger: #F44336;
+  --color-danger-light: #EF5350;
+  
+  --color-success: #4CAF50;
+  --color-info: #2196F3;
+  
+  /* 엔티티 타입별 색상 */
+  --color-grass: #4CAF50;
+  --color-grass-light: #66BB6A;
+  --color-bug: #8BC34A;
+  --color-bug-light: #AED581;
+  --color-frog: #26A69A;
+  --color-frog-light: #4DB6AC;
+  --color-snake: #795548;
+  --color-snake-light: #A1887F;
+  --color-eagle: #F44336;
+  --color-eagle-light: #EF5350;
+  
+  /* 배경 색상 */
+  --bg-primary: rgba(255, 255, 255, 0.95);
+  --bg-secondary: rgba(255, 255, 255, 0.9);
+  --bg-overlay: rgba(0, 0, 0, 0.1);
+  --bg-overlay-dark: rgba(0, 0, 0, 0.7);
+  
+  /* 텍스트 색상 */
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-tertiary: #999;
+  --text-inverse: #fff;
+  
+  /* 간격 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* 테두리 */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 30px;
+  --border-radius-full: 50%;
+  
+  --border-width: 2px;
+  --border-color: rgba(0, 0, 0, 0.1);
+  
+  /* 그림자 (최적화: 불필요한 box-shadow 제거) */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-none: none;
+  
+  /* 블러 효과 (GPU 최적화) */
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --blur-lg: blur(12px);
+  
+  /* 전환 효과 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* z-index 레이어 */
+  --z-base: 1;
+  --z-overlay: 100;
+  --z-modal: 200;
+  --z-tooltip: 300;
+  --z-max: 9999;
+}
+

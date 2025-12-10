@@ -1,0 +1,94 @@
+/**
+ * 엔티티 관련 스타일
+ * - EntityCanvas에서 사용되는 엔티티 스타일
+ * - 에너지 바는 EntityCanvas에서 렌더링됨
+ */
+
+@import './variables.css';
+
+/* 엔티티 기본 스타일 */
+.entity {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  user-select: none;
+  transition: opacity var(--transition-normal), transform var(--transition-fast);
+  color: var(--text-inverse);
+  font-weight: normal;
+  cursor: pointer;
+  /* 불필요한 box-shadow 제거 (성능 최적화) */
+}
+
+.entity:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+/* 엔티티 타입별 배경 색상 */
+.entity.grass {
+  background: linear-gradient(135deg, var(--color-grass), var(--color-grass-light));
+}
+
+.entity.bug {
+  background: linear-gradient(135deg, var(--color-bug), var(--color-bug-light));
+}
+
+.entity.frog {
+  background: linear-gradient(135deg, var(--color-frog), var(--color-frog-light));
+}
+
+.entity.snake {
+  background: linear-gradient(135deg, var(--color-snake), var(--color-snake-light));
+}
+
+.entity.eagle {
+  background: linear-gradient(135deg, var(--color-eagle), var(--color-eagle-light));
+}
+
+/* 에너지 바는 EntityCanvas에서 렌더링됨 */
+/* .entity::after와 .entity .energy-bar는 제거됨 */
+
+/* 제거 시 효과 */
+.entity.remove-highlight {
+  box-shadow: inset 0 0 0 4px var(--color-danger) !important;
+  animation: shake var(--transition-fast) ease;
+  opacity: 0.5;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* 무적 상태 (최적화: box-shadow 단순화) */
+.entity.invincible {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.6);
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* 번식 가능 상태 (최적화: box-shadow 단순화) */
+.entity.reproducing {
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5), inset 0 0 0 2px rgba(255, 215, 0, 0.4) !important;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5), inset 0 0 0 2px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7), inset 0 0 0 2px rgba(255, 215, 0, 0.5);
+  }
+}
+

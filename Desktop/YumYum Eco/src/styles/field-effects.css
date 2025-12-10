@@ -1,0 +1,245 @@
+/**
+ * 필드 효과 관련 스타일
+ * - 비, 메테오, 전염병 효과
+ * - GPU 최적화: blur 효과 최소화
+ */
+
+@import './variables.css';
+
+/* 필드 효과 컨테이너 */
+.field-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: var(--z-max);
+}
+
+/* ===== 비 효과 ===== */
+.rain-effect {
+  overflow: hidden;
+  position: relative;
+}
+
+.rain-drops {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.rain-drop {
+  position: absolute;
+  background: linear-gradient(to bottom, 
+    rgba(200, 220, 240, 0.95) 0%,
+    rgba(173, 216, 230, 0.85) 30%,
+    rgba(135, 206, 250, 0.75) 70%,
+    rgba(135, 206, 250, 0.5) 100%
+  );
+  animation: rainFall ease-in infinite;
+  border-radius: 2px;
+  will-change: transform;
+  /* GPU 최적화: blur 제거 또는 최소화 */
+}
+
+.rain-drop-large {
+  width: 4px;
+  height: 45px;
+  opacity: 0.95;
+  /* box-shadow 제거 (성능 최적화) */
+}
+
+.rain-drop-medium {
+  width: 2.5px;
+  height: 30px;
+  opacity: 0.85;
+  /* box-shadow 제거 (성능 최적화) */
+}
+
+.rain-drop-small {
+  width: 1.5px;
+  height: 18px;
+  opacity: 0.65;
+}
+
+/* 비 오는 분위기 오버레이 */
+.rain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom,
+    rgba(200, 220, 240, 0.15) 0%,
+    rgba(180, 200, 220, 0.2) 30%,
+    rgba(160, 180, 200, 0.18) 70%,
+    rgba(140, 160, 180, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: rainMist 3s ease-in-out infinite;
+  /* backdrop-filter 제거 (성능 최적화) */
+  /* box-shadow 제거 (성능 최적화) */
+}
+
+@keyframes rainMist {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes rainFall {
+  0% {
+    transform: translateY(-5vh) translateX(0) rotate(8deg);
+    opacity: 0.6;
+  }
+  5% {
+    opacity: 1;
+    transform: translateY(0) translateX(calc(var(--wind-offset, 0px) * 0.3)) rotate(10deg);
+  }
+  50% {
+    transform: translateY(50vh) translateX(calc(var(--wind-offset, 0px) * 0.6)) rotate(12deg);
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+    transform: translateY(100vh) translateX(calc(var(--wind-offset, 0px) * 0.8)) rotate(14deg);
+  }
+  100% {
+    transform: translateY(105vh) translateX(var(--wind-offset, 0px)) rotate(15deg);
+    opacity: 0.6;
+  }
+}
+
+/* ===== 메테오 효과 ===== */
+.meteor-effect {
+  pointer-events: none;
+}
+
+.meteor-explosion {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+}
+
+.meteor-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #FFD700, #FF8C00, #FF4500);
+  border-radius: var(--border-radius-full);
+  animation: meteorPulse 0.3s ease-out;
+  /* box-shadow 최적화: 단순화 */
+  box-shadow: 0 0 20px #FF4500;
+}
+
+.meteor-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid;
+  border-radius: var(--border-radius-full);
+  animation: meteorExpand 1s ease-out;
+}
+
+.meteor-ring.ring-1 {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(255, 215, 0, 0.8);
+  animation-delay: 0s;
+}
+
+.meteor-ring.ring-2 {
+  width: 100px;
+  height: 100px;
+  border-color: rgba(255, 140, 0, 0.6);
+  animation-delay: 0.1s;
+}
+
+.meteor-ring.ring-3 {
+  width: 150px;
+  height: 150px;
+  border-color: rgba(255, 69, 0, 0.4);
+  animation-delay: 0.2s;
+}
+
+@keyframes meteorPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes meteorExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* ===== 전염병 효과 ===== */
+.plague-effect {
+  overflow: hidden;
+}
+
+.plague-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.plague-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, 
+    rgba(139, 69, 19, 0.8) 0%,
+    rgba(160, 82, 45, 0.6) 50%,
+    rgba(139, 69, 19, 0.3) 100%
+  );
+  border-radius: var(--border-radius-full);
+  animation: plagueFloat ease-in-out infinite;
+  /* box-shadow 제거 (성능 최적화) */
+}
+
+@keyframes plagueFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(10px, -10px) scale(1.2);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-5px, -20px) scale(0.8);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(-10px, -10px) scale(1.1);
+    opacity: 0.7;
+  }
+}
+
